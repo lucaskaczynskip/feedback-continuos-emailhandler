@@ -26,7 +26,7 @@ public class EmailService {
     private final freemarker.template.Configuration fmConfiguration;
 
     @Value("${spring.mail.username}")
-    private final String from;
+    private String from;
     private final JavaMailSender emailSender;
     private File dirPath = new File("src/main/resources/templates");
 
