@@ -1,6 +1,7 @@
 package br.com.vimserdev.feedback.emailconsumer.service;
 
 import br.com.vimserdev.feedback.emailconsumer.dto.EmailHandlerDTO;
+import br.com.vimserdev.feedback.emailconsumer.dto.ForgotPasswordHandlerDTO;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +48,37 @@ public class EmailService {
         }
     }
 
+    public void sendEmail(ForgotPasswordHandlerDTO handlerDTO) {
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        try {
+
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+            mimeMessageHelper.setFrom(from);
+            mimeMessageHelper.setTo(handlerDTO.getTo());
+            mimeMessageHelper.setSubject("Novo senha para acessar sua conta!");
+            mimeMessageHelper.setText(geContentFromTemplate(handlerDTO), true);
+
+            emailSender.send(mimeMessageHelper.getMimeMessage());
+        } catch (MessagingException | IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String geContentFromTemplate(EmailHandlerDTO emailHandlerDTO) throws IOException, TemplateException {
         Map<String, Object> data = new HashMap<>();
         data.put("from", emailHandlerDTO.getFrom());
         fmConfiguration.setDirectoryForTemplateLoading(dirPath);
         Template template = fmConfiguration.getTemplate("/feedback-template.ftl");
+        String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
+        return html;
+    }
+
+    public String geContentFromTemplate(ForgotPasswordHandlerDTO handlerDTO) throws IOException, TemplateException {
+        Map<String, Object> data = new HashMap<>();
+        data.put("code", handlerDTO.getCode());
+        fmConfiguration.setDirectoryForTemplateLoading(dirPath);
+        Template template = fmConfiguration.getTemplate("/feedbackforgotpass-template.ftl");
         String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
         return html;
     }
