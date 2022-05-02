@@ -33,7 +33,7 @@
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
                     <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Olá!</h1>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Você recebeu um novo feedback de ${from}!</p>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Você recebeu um novo feedback!</p>
                     <p><a href="https://feedback-continuo.vercel.app/login" target="_blank">Clique aqui para ir para o site.</a></p>
                   </td>
                 </tr>
